@@ -93,6 +93,14 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
 .scroll-y{max-height:520px;overflow-y:auto;border-radius:var(--r-md)}
 .footer{padding:24px;text-align:center;color:var(--color-text-tertiary);font-size:12px}
 
+/* Tab bar */
+.tab-bar{display:flex;gap:4px;padding:0 24px;background:var(--color-surface-base);border-bottom:1px solid var(--color-border-default);position:sticky;top:76px;z-index:9}
+.tab-btn{font-family:var(--font-display);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;padding:14px 20px;border:0;background:transparent;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
+.tab-btn:hover{color:var(--color-text-primary)}
+.tab-btn.active{color:var(--color-brand-primary);border-bottom-color:var(--color-brand-primary)}
+.tab-panel{display:none}
+.tab-panel.active{display:block}
+
 </style>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 </head>
@@ -101,7 +109,7 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
     <div class="logo"><img src="logo.jpg" alt="Olympic Paints" width="48" height="48"></div>
     <div class="title">
       <h1>E-Commerce Dashboard</h1>
-      <div class="meta">Period: YTD 2026 · Generated: 6 May 2026 22:39 SAST · Source: Woocommerce_Transactions.csv</div>
+      <div class="meta">Period: YTD 2026 · Generated: 6 May 2026 23:01 SAST · Source: Woocommerce_Transactions.csv</div>
     </div>
     <div class="theme-bar">
       <button onclick="olyTheme('theme-light',this)">Light</button>
@@ -111,8 +119,15 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
     </div>
   </header>
 
+  <nav class="tab-bar">
+    <button class="tab-btn active" onclick="olyTab('ecom',this)">E-Commerce (WooCommerce)</button>
+    <button class="tab-btn" onclick="olyTab('makro',this)">Makro</button>
+    <button class="tab-btn" onclick="olyTab('lrm',this)">Leroy Merlin</button>
+  </nav>
+
   <main class="main">
-    
+    <section class="tab-panel active" id="tab-ecom">
+      
     <section class="row row-3">
       <div class="kpi kpi-good">
         <div class="label">Current Service Level for 2026 (Days)</div>
@@ -131,8 +146,8 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
       </div>
     </section>
     
-    <section class="row row-prov"><div class="tile-prov"><div class="label">Service Level — GP</div><div class="value">8.27 Days</div><div class="meta">n=49</div></div><div class="tile-prov no-data"><div class="label">Service Level — NW</div><div class="value">No data</div></div><div class="tile-prov"><div class="label">Service Level — WC</div><div class="value">7.73 Days</div><div class="meta">n=26</div></div><div class="tile-prov no-data"><div class="label">Service Level — NC</div><div class="value">Limited data</div><div class="meta">13.0 days · n=2</div></div><div class="tile-prov no-data"><div class="label">Service Level — MP</div><div class="value">Limited data</div><div class="meta">66.67 days · n=3</div></div><div class="tile-prov"><div class="label">Service Level — EC</div><div class="value">11.0 Days</div><div class="meta">n=5</div></div><div class="tile-prov"><div class="label">Service Level — KZN</div><div class="value">5.86 Days</div><div class="meta">n=7</div></div><div class="tile-prov no-data"><div class="label">Service Level — LP</div><div class="value">Limited data</div><div class="meta">12.0 days · n=2</div></div></section>
-    
+      <section class="row row-prov"><div class="tile-prov"><div class="label">Service Level — GP</div><div class="value">8.27 Days</div><div class="meta">n=49</div></div><div class="tile-prov no-data"><div class="label">Service Level — NW</div><div class="value">No data</div></div><div class="tile-prov"><div class="label">Service Level — WC</div><div class="value">7.73 Days</div><div class="meta">n=26</div></div><div class="tile-prov no-data"><div class="label">Service Level — NC</div><div class="value">Limited data</div><div class="meta">13.0 days · n=2</div></div><div class="tile-prov no-data"><div class="label">Service Level — MP</div><div class="value">Limited data</div><div class="meta">66.67 days · n=3</div></div><div class="tile-prov"><div class="label">Service Level — EC</div><div class="value">11.0 Days</div><div class="meta">n=5</div></div><div class="tile-prov"><div class="label">Service Level — KZN</div><div class="value">5.86 Days</div><div class="meta">n=7</div></div><div class="tile-prov no-data"><div class="label">Service Level — LP</div><div class="value">Limited data</div><div class="meta">12.0 days · n=2</div></div></section>
+      
     <section class="row row-2">
       <div class="card"><h3>Sales Breakdown Per Province</h3><div style="height:340px"><canvas id="piePro"></canvas></div></div>
       <div class="card"><h3>Order Status Breakdown</h3><div style="height:340px"><canvas id="pieStatus"></canvas></div></div>
@@ -154,7 +169,7 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
     });
     </script>
     
-    
+      
     <section class="row" style="grid-template-columns:1fr">
       <div class="card"><h3>Daily Order Volume — Last 30 Days</h3><div style="height:200px"><canvas id="trendChart"></canvas></div></div>
     </section>
@@ -166,8 +181,8 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
     });
     </script>
     
-    <section class="row row-2">
-      
+      <section class="row row-2">
+        
       <div class="card">
         <h3>Service Level per Order</h3>
         <div class="scroll-y">
@@ -178,7 +193,7 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
         </div>
       </div>
     
-      
+        
       <div class="card">
         <h3>Sales Per Product</h3>
         <div class="scroll-y">
@@ -190,8 +205,8 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
         </div>
       </div>
     
-    </section>
-    
+      </section>
+      
     <section class="row" style="grid-template-columns:1fr">
       <div class="card">
         <h3>Date That Orders Need to Leave Olympic Paints</h3>
@@ -210,10 +225,165 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
       </div>
     </section>
     
+    </section>
+
+    <section class="tab-panel" id="tab-makro">
+      
+    
+    <section class="row row-3">
+      <div class="kpi kpi-good">
+        <div class="label">New Orders (2026)</div>
+        <div class="value">70</div>
+        <div class="sub">25 days tracked · avg 2.8/day</div>
+      </div>
+      <div class="kpi kpi-good">
+        <div class="label">Dispatched (2026)</div>
+        <div class="value">58</div>
+        <div class="sub">In manufacturing total: 3</div>
+      </div>
+      <div class="kpi kpi-warn">
+        <div class="label">Currently Rolled Over</div>
+        <div class="value">0</div>
+        <div class="sub">As of Apr 21, 2026</div>
+      </div>
+    </section>
+    
+
+    <section class="row" style="grid-template-columns:1fr">
+      <div class="card">
+        <h3>Makro — Daily Order Flow</h3>
+        <div style="height:280px"><canvas id="chan_makro"></canvas></div>
+      </div>
+    </section>
+
+    <section class="row" style="grid-template-columns:1fr">
+      <div class="card">
+        <h3>Makro — Rolled-Over Backlog Trend</h3>
+        <div style="height:200px"><canvas id="chan_makro_rolled"></canvas></div>
+      </div>
+    </section>
+
+    <section class="row" style="grid-template-columns:1fr">
+      
+      <div class="card">
+        <h3>Makro Daily Log — Jan 6, 2026 → Apr 21, 2026</h3>
+        <div class="scroll-y">
+        <table>
+          <thead><tr>
+            <th>Date</th>
+            <th style="text-align:right">New</th>
+            <th style="text-align:right">In Mfg</th>
+            <th style="text-align:right">Completed</th>
+            <th style="text-align:right">Dispatched</th>
+            <th style="text-align:right">Rolled Over</th>
+            <th>Notes</th>
+          </tr></thead>
+          <tbody><tr><td>Apr 21, 2026</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Apr 13, 2026</td><td style="text-align:right">3</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Apr 8, 2026</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Apr 7, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Mar 16, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Mar 3, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">3</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Mar 1, 2026</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 26, 2026</td><td style="text-align:right">1</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 18, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 17, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 16, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 12, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">3</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 10, 2026</td><td style="text-align:right">2</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 9, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 21, 2026</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">4</td><td style="text-align:right">2</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 20, 2026</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 16, 2026</td><td style="text-align:right">3</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 15, 2026</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 14, 2026</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)">1 from yesterday</td></tr><tr><td>Jan 13, 2026</td><td style="text-align:right">6</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">5</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 12, 2026</td><td style="text-align:right">5</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">5</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 9, 2026</td><td style="text-align:right">3</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">3</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 8, 2026</td><td style="text-align:right">2</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">6</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)">4 from yesterday ones as well</td></tr><tr><td>Jan 7, 2026</td><td style="text-align:right">4</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 6, 2026</td><td style="text-align:right">6</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">6</td><td style="text-align:right">1</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr></tbody>
+        </table>
+        </div>
+      </div>
+    
+    </section>
+
+    <script>
+    new Chart(document.getElementById('chan_makro'),{
+      type:'bar',
+      data:{labels:["Jan 6", "Jan 7", "Jan 8", "Jan 9", "Jan 12", "Jan 13", "Jan 14", "Jan 15", "Jan 16", "Jan 20", "Jan 21", "Feb 9", "Feb 10", "Feb 12", "Feb 16", "Feb 17", "Feb 18", "Feb 26", "Mar 1", "Mar 3", "Mar 16", "Apr 7", "Apr 8", "Apr 13", "Apr 21"],datasets:[
+        {label:'New',data:[6, 4, 2, 3, 5, 6, 1, 1, 3, 2, 2, 4, 2, 4, 4, 0, 0, 1, 1, 4, 4, 4, 2, 3, 2],backgroundColor:'#F5C400'},
+        {label:'In Manufacturing',data:[0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0],backgroundColor:'#1A3D6E'},
+        {label:'Dispatched',data:[6, 0, 6, 3, 5, 5, 2, 1, 2, 0, 4, 2, 1, 1, 4, 0, 0, 1, 1, 3, 4, 4, 1, 0, 2],backgroundColor:'#2D8C7A'}
+      ]},
+      options:{plugins:{legend:{position:'top'}},scales:{x:{stacked:false},y:{beginAtZero:true,ticks:{stepSize:1}}},maintainAspectRatio:false}
+    });
+    new Chart(document.getElementById('chan_makro_rolled'),{
+      type:'line',
+      data:{labels:["Jan 6", "Jan 7", "Jan 8", "Jan 9", "Jan 12", "Jan 13", "Jan 14", "Jan 15", "Jan 16", "Jan 20", "Jan 21", "Feb 9", "Feb 10", "Feb 12", "Feb 16", "Feb 17", "Feb 18", "Feb 26", "Mar 1", "Mar 3", "Mar 16", "Apr 7", "Apr 8", "Apr 13", "Apr 21"],datasets:[{label:'Rolled over',data:[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],borderColor:'#E86060',backgroundColor:'rgba(232,96,96,0.15)',fill:true,tension:0.3,pointRadius:2}]},
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}},maintainAspectRatio:false}
+    });
+    </script>
+    
+    </section>
+
+    <section class="tab-panel" id="tab-lrm">
+      
+    
+    <section class="row row-3">
+      <div class="kpi kpi-good">
+        <div class="label">New Orders (2026)</div>
+        <div class="value">2</div>
+        <div class="sub">25 days tracked · avg 0.08/day</div>
+      </div>
+      <div class="kpi kpi-good">
+        <div class="label">Dispatched (2026)</div>
+        <div class="value">2</div>
+        <div class="sub">In manufacturing total: 0</div>
+      </div>
+      <div class="kpi kpi-warn">
+        <div class="label">Currently Rolled Over</div>
+        <div class="value">0</div>
+        <div class="sub">As of Apr 21, 2026</div>
+      </div>
+    </section>
+    
+
+    <section class="row" style="grid-template-columns:1fr">
+      <div class="card">
+        <h3>Leroy Merlin — Daily Order Flow</h3>
+        <div style="height:280px"><canvas id="chan_lrm"></canvas></div>
+      </div>
+    </section>
+
+    <section class="row" style="grid-template-columns:1fr">
+      <div class="card">
+        <h3>Leroy Merlin — Rolled-Over Backlog Trend</h3>
+        <div style="height:200px"><canvas id="chan_lrm_rolled"></canvas></div>
+      </div>
+    </section>
+
+    <section class="row" style="grid-template-columns:1fr">
+      
+      <div class="card">
+        <h3>Leroy Merlin Daily Log — Jan 6, 2026 → Apr 21, 2026</h3>
+        <div class="scroll-y">
+        <table>
+          <thead><tr>
+            <th>Date</th>
+            <th style="text-align:right">New</th>
+            <th style="text-align:right">In Mfg</th>
+            <th style="text-align:right">Completed</th>
+            <th style="text-align:right">Dispatched</th>
+            <th style="text-align:right">Rolled Over</th>
+            <th>Notes</th>
+          </tr></thead>
+          <tbody><tr><td>Apr 21, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Apr 13, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Apr 8, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Apr 7, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Mar 16, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Mar 3, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Mar 1, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 26, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 18, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 17, 2026</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 16, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 12, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 10, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Feb 9, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 21, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 20, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 16, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 15, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 14, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 13, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 12, 2026</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">1</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 9, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 8, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 7, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr><tr><td>Jan 6, 2026</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="text-align:right">0</td><td style="font-size:11px;color:var(--color-text-secondary)"></td></tr></tbody>
+        </table>
+        </div>
+      </div>
+    
+    </section>
+
+    <script>
+    new Chart(document.getElementById('chan_lrm'),{
+      type:'bar',
+      data:{labels:["Jan 6", "Jan 7", "Jan 8", "Jan 9", "Jan 12", "Jan 13", "Jan 14", "Jan 15", "Jan 16", "Jan 20", "Jan 21", "Feb 9", "Feb 10", "Feb 12", "Feb 16", "Feb 17", "Feb 18", "Feb 26", "Mar 1", "Mar 3", "Mar 16", "Apr 7", "Apr 8", "Apr 13", "Apr 21"],datasets:[
+        {label:'New',data:[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],backgroundColor:'#F5C400'},
+        {label:'In Manufacturing',data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],backgroundColor:'#1A3D6E'},
+        {label:'Dispatched',data:[0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0],backgroundColor:'#2D8C7A'}
+      ]},
+      options:{plugins:{legend:{position:'top'}},scales:{x:{stacked:false},y:{beginAtZero:true,ticks:{stepSize:1}}},maintainAspectRatio:false}
+    });
+    new Chart(document.getElementById('chan_lrm_rolled'),{
+      type:'line',
+      data:{labels:["Jan 6", "Jan 7", "Jan 8", "Jan 9", "Jan 12", "Jan 13", "Jan 14", "Jan 15", "Jan 16", "Jan 20", "Jan 21", "Feb 9", "Feb 10", "Feb 12", "Feb 16", "Feb 17", "Feb 18", "Feb 26", "Mar 1", "Mar 3", "Mar 16", "Apr 7", "Apr 8", "Apr 13", "Apr 21"],datasets:[{label:'Rolled over',data:[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],borderColor:'#E86060',backgroundColor:'rgba(232,96,96,0.15)',fill:true,tension:0.3,pointRadius:2}]},
+      options:{plugins:{legend:{display:false}},scales:{y:{beginAtZero:true,ticks:{stepSize:1}}},maintainAspectRatio:false}
+    });
+    </script>
+    
+    </section>
   </main>
 
   <footer class="footer">
-    Olympic Paints E-Commerce Dashboard — generated by PRISM · 6 May 2026 22:39
+    Olympic Paints E-Commerce Dashboard — generated by PRISM · 6 May 2026 23:01
   </footer>
 
 <script>
@@ -223,6 +393,13 @@ function olyTheme(t,btn){
   document.documentElement.classList.add(t);
   localStorage.setItem('oly-theme',t);
   document.querySelectorAll('.theme-bar button').forEach(b=>b.classList.toggle('active',b===btn));
+}
+function olyTab(id,btn){
+  document.querySelectorAll('.tab-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('tab-'+id).classList.add('active');
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.toggle('active',b===btn));
+  // Trigger Chart.js resize after panel becomes visible
+  setTimeout(()=>window.dispatchEvent(new Event('resize')),50);
 }
 </script>
 </body>
