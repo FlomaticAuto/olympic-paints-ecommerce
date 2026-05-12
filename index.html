@@ -93,6 +93,18 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
 .scroll-y{max-height:520px;overflow-y:auto;border-radius:var(--r-md)}
 .footer{padding:24px;text-align:center;color:var(--color-text-tertiary);font-size:12px}
 
+/* KPI rules description block */
+.kpi-rules{background:var(--color-surface-elevated);border-left:4px solid var(--color-brand-primary)}
+.kpi-rules h3{text-align:left;font-size:16px;margin-bottom:14px}
+.rules-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px;margin-bottom:14px}
+@media(max-width:900px){.rules-grid{grid-template-columns:1fr}}
+.rule-block{display:flex;gap:12px;align-items:flex-start;padding:14px;background:var(--color-surface-sunken);border:1px solid var(--color-border-default);border-radius:var(--r-md)}
+.rule-num{flex-shrink:0;width:32px;height:32px;border-radius:50%;background:var(--color-brand-primary);color:var(--color-text-on-brand);font-family:var(--font-display);font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center}
+.rule-title{font-family:var(--font-display);font-weight:800;font-size:13px;text-transform:uppercase;letter-spacing:0.04em;color:var(--color-text-primary);margin-bottom:4px}
+.rule-body{font-size:12px;color:var(--color-text-secondary);line-height:1.5}
+.rule-body code{font-family:'Consolas','Monaco',monospace;font-size:11px;background:var(--color-surface-overlay);padding:1px 5px;border-radius:3px;color:var(--color-text-primary)}
+.rules-footnote{font-size:11px;color:var(--color-text-secondary);line-height:1.6;padding:10px 12px;background:var(--color-info-bg);border:1px solid var(--color-info-bd);border-radius:var(--r-sm);color:var(--color-info-fg)}
+
 /* Tab bar */
 .tab-bar{display:flex;gap:4px;padding:0 24px;background:var(--color-surface-base);border-bottom:1px solid var(--color-border-default);position:sticky;top:76px;z-index:9}
 .tab-btn{font-family:var(--font-display);font-weight:700;font-size:12px;text-transform:uppercase;letter-spacing:0.08em;padding:14px 20px;border:0;background:transparent;color:var(--color-text-secondary);cursor:pointer;border-bottom:2px solid transparent;transition:color .15s,border-color .15s}
@@ -109,7 +121,7 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
     <div class="logo"><img src="logo.jpg" alt="Olympic Paints" width="48" height="48"></div>
     <div class="title">
       <h1>E-Commerce Dashboard</h1>
-      <div class="meta">Period: YTD 2026 · Generated: 12 May 2026 19:53 SAST · Source: Woocommerce_Transactions.csv</div>
+      <div class="meta">Period: YTD 2026 · Generated: 12 May 2026 20:05 SAST · Source: Woocommerce_Transactions.csv</div>
     </div>
     <div class="theme-bar">
       <button onclick="olyTheme('theme-light',this)">Light</button>
@@ -160,6 +172,44 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
     </div>
     
     </section>
+    
+    <section class="row" style="grid-template-columns:1fr">
+      <div class="card kpi-rules">
+        <h3>KPI Rules — How Fulfilment is Measured</h3>
+        <div class="rules-grid">
+          <div class="rule-block">
+            <div class="rule-num">1</div>
+            <div>
+              <div class="rule-title">Ready to Ship — 2 working days</div>
+              <div class="rule-body">From the moment an order is received at Olympic Paints, it must be picked, paid-confirmed, manufactured if needed, and ready for dispatch within 2 working days. Measured as <code>date_created → date_completed</code>.</div>
+            </div>
+          </div>
+          <div class="rule-block">
+            <div class="rule-num">2</div>
+            <div>
+              <div class="rule-title">Local Delivery (GP) — 5 working days</div>
+              <div class="rule-body">For Gauteng orders, total order-to-delivery must not exceed 5 working days. This is 2 working days dispatch + 3 working days transit estimate.</div>
+            </div>
+          </div>
+          <div class="rule-block">
+            <div class="rule-num">3</div>
+            <div>
+              <div class="rule-title">Regional Delivery (non-GP) — 7 working days</div>
+              <div class="rule-body">For all other provinces (NW, WC, NC, MP, EC, KZN, LP), total order-to-delivery must not exceed 7 working days. That is 2 working days dispatch + 5 working days transit estimate.</div>
+            </div>
+          </div>
+        </div>
+        <div class="rules-footnote">
+          <strong>Working days</strong> = Monday to Friday. Weekends are excluded; public holidays are currently counted as working days.
+          &nbsp;·&nbsp; <strong>Delivery numbers are projected</strong>, not tracked — they use the transit-day estimate above, since WooCommerce does not yet capture a delivered-date.
+          &nbsp;·&nbsp; <strong>On-time %</strong> is calculated against completed/dispatched/refunded orders only; cancelled and failed orders are excluded.
+          &nbsp;·&nbsp; Bands: <span style="color:var(--color-success-fg);font-weight:700">≥90% green</span>,
+          <span style="color:var(--color-warning-fg);font-weight:700">70–89% amber</span>,
+          <span style="color:var(--color-danger-fg);font-weight:700">&lt;70% red</span>.
+        </div>
+      </div>
+    </section>
+    
     <section class="row row-2">
       <div class="kpi kpi-warn">
         <div class="label">Open Orders Past Dispatch SLA</div>
@@ -416,7 +466,7 @@ table tbody tr:nth-child(even) td{background:var(--color-surface-overlay)}
   </main>
 
   <footer class="footer">
-    Olympic Paints E-Commerce Dashboard — generated by PRISM · 12 May 2026 19:53
+    Olympic Paints E-Commerce Dashboard — generated by PRISM · 12 May 2026 20:05
   </footer>
 
 <script>
